@@ -143,3 +143,37 @@
 
 </body>
 </html>
+
+const { DynamoDBClient, PutItemCommand } = require("@aws-sdk/client-dynamodb");
+const { nanoid } = require("nanoid");
+
+const dbClient = new DynamoDBClient({ region: process.env.REGION });
+const tableName = process.env.TABLE;
+export const handler = async (event) => {
+  try {
+    const body = JSON.parse(event.body);
+    const id = nanoid();
+
+    const params = {
+      TableName: tableName,
+      Item: {
+        id: {S: id},
+        input_text: {S: body.input_text},
+        input_file_path: {S: body.input_file_path}
+      }
+    };
+
+    await dbClient.send(new PutItemCommand(params));
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ id })
+    };
+  } catch (error) {
+    console.error("Error processing event: ",error);
+
+    return {
+      statusCode: 500,
+      body: JSON.stringify({message:"Internal Server Error"})
+    };
+  }
+};
