@@ -1,38 +1,31 @@
-import { useState } from 'react'
-import './App.css'
+import './App.css';
+import './styles.css';
+import InputField from './components/InputField';
+import TodoList from './components/TodoList';
+import { useState } from 'react';
+import { Todo } from './model';
 
-let name:string;
-type Person={
-  name:string;
-  age?:number;
-}
-interface Building{
-  country:string
-}
-interface House extends Building{
-  location:string,
-  num:number
-}
+const App: React.FC = () => {
+  const [todo, setTodo] = useState<string>("");
+  const [todos, setTodos] = useState<Todo[]>([]);
 
-let house:House={
-  country:'India',
-  location:'shimoga',
-  num:10
-}
-
-let person:Person={
-  name:'Abhi',
-}
-let arr:Person[]=[];
-
-function App() {
-  arr.push(person)
+  const handleAdd = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (todo) {
+      setTodos([...todos, { id: Date.now(), todo: todo, isDone: false }]);
+      setTodo("");
+    }
+    console.log(todos);
+  };
 
   return (
-    <>
-  {house.country}      
-    </>
-  )
-}
+    <div className="App">
+      <span className="heading">Task Master</span>
+      <InputField todo={todo} setTodo={setTodo} handleAdd={handleAdd} />
+      <TodoList todos={todos} setTodos={setTodos}/>
+      <TodoList todos={todos} setTodos={setTodos}/>
+    </div>
+  );
+};
 
-export default App
+export default App;
