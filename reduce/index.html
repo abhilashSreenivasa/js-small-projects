@@ -6,6 +6,7 @@
   <link rel="icon" href="https://fav.farm/🔥" />
 </head>
 <body>
+  <span id="total-time"></span>
   <ul class="videos">
     <li data-time="5:43">
       Video 1
@@ -178,11 +179,28 @@
     <li data-time="1:56">
       Video 57
     </li>
-    <li data-time="4:04">
+    <li data-time="4:07">
       Video 58
     </li>
   </ul>
 <script>
+  const timeNodes=Array.from(document.querySelectorAll('[data-time]'))
+  console.log(timeNodes)
+  const seconds=timeNodes.map((node, i)=>{
+    const [min, secs] = node.dataset.time.split(":").map(parseFloat)
+    return (min*60)+ secs
+  }).reduce((total, secs)=>{
+    return total+=secs
+  },0)
+  console.log(seconds)
+  let secondLeft = seconds
+  const hours = Math.floor(seconds/3600)
+  secondLeft= secondLeft % 3600
+  const minutes= Math.floor(secondLeft/60)
+  secondLeft= secondLeft% 60
+  console.log(hours,minutes,secondLeft)
+  const span=document.querySelector('#total-time')
+  span.innerText=`Total: ${hours} hours, ${minutes} minutes and ${secondLeft} seconds.`
 </script>
 </body>
 </html>
