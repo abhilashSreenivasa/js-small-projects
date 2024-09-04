@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Console Tricks!</title>
+  <link rel="icon" href="https://fav.farm/🔥" />
+</head>
+<body>
+
+  <form class="form">
+    <input type="text"/>
+    <button class="btn" type="submit">Click</button>
+    <div class="content"></div>
+    <img src=""></img>
+      
+  </form>
+  <script>
+    const btn= document.querySelector('.btn')
+    const img= document.querySelector('img')
+    const input= document.querySelector('input')
+    const content=document.querySelector('.content')
+    btn.addEventListener('click',(e)=>{
+      e.preventDefault()
+      content.textContent=`User clicked: ${input.value}`
+      img.src=obj.image
+
+      printRand()
+    })
+
+    function printRand(){
+      console.log(Math.random())
+    }
+    let obj;
+    fetch('https://some-random-api.com/animal/koala').then((val)=>val.json()).then((raw)=>{obj=raw
+    }).catch((e)=>console.error(e))
+    
+ 
+    // Regular
+
+    // Interpolated
+
+    // Styled
+
+    // warning!
+
+    // Error :|
+
+    // Info
+
+    // Testing
+
+    // clearing
+
+    // Viewing DOM Elements
+
+    // Grouping together
+
+    // counting
+
+    // timing
+
+  </script>
+</body>
+</html>
