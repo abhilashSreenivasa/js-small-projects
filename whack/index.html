@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Whack A Mole!</title>
+  <link href='https://fonts.googleapis.com/css?family=Amatic+SC:400,700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="https://fav.farm/🔥" />
+</head>
+<body>
+
+  <h1>Whack-a-mole! <span class="score">0</span></h1>
+  <h2>High Score: <span class="highScore"></span></h2>
+  <button onClick="startGame()">Start!</button>
+
+  <div class="game">
+    <div class="hole hole1">
+      <div class="mole"></div>
+    </div>
+    <div class="hole hole2">
+      <div class="mole"></div>
+    </div>
+    <div class="hole hole3">
+      <div class="mole"></div>
+    </div>
+    <div class="hole hole4">
+      <div class="mole"></div>
+    </div>
+    <div class="hole hole5">
+      <div class="mole"></div>
+    </div>
+    <div class="hole hole6">
+      <div class="mole"></div>
+    </div>
+  </div>
+
+<script>
+  let highestScore= localStorage.getItem('high')
+  if(!highestScore){
+    localStorage.setItem('high',0)
+    highestScore= 0
+  }
+  document.querySelector('.highScore').textContent=highestScore
+
+
+  const holes = document.querySelectorAll('.hole');
+  const scoreBoard = document.querySelector('.score');
+  const moles = document.querySelectorAll('.mole');
+  let lastHole;
+  let timeUp=false;
+  let score;
+  function randTime(min,max){
+    return Math.round(Math.random()*(max-min)+min)
+  }
+
+  function randHole(holes){
+    const idx= Math.floor(Math.random()* holes.length)
+    const hole=holes[idx]
+    if(hole===lastHole){
+      return randHole(holes) 
+      
+    }
+    lastHole=hole
+    return hole
+    
+  }
+
+ function peep(){
+  const time= randTime(200,1000)
+  const hole= randHole(holes)
+
+  hole.classList.add('up')
+  setTimeout(()=>{
+    hole.classList.remove('up')
+    if(!timeUp) peep()
+  },time) 
+
+ }
+ function startGame(){
+  scoreBoard.textContent=0
+  timeUp=false
+  score=0
+  peep()
+  setTimeout(()=>{
+    timeUp=true
+    const score=parseInt(scoreBoard.textContent)
+    if(score>highestScore){
+      alert(' Congrats! New high score!')
+      localStorage.setItem('high',score)
+      document.querySelector('.highScore').textContent=score
+    }
+
+    console.log(score)
+  },10000)
+
+  
+ }
+
+ function bonk(){
+  score+=1
+  this.classList.remove('up')
+  scoreBoard.textContent=score
+ }
+ moles.forEach((mole)=>mole.addEventListener('click',bonk))
+
+
+
+</script>
+</body>
+</html>
